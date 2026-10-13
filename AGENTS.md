@@ -38,9 +38,10 @@ The CSV files are the source of truth. The `.xlsx` is only a view of them.
 4. `bracket_id` must exist in `data/brackets.csv`.
 5. `funding_amount` is what the incubator's program gives unless the startup's own
    round was reported. `funding_note` says which of the two it is.
-6. `region` is one of `India`, `USA`, `Other`. It means where the company is based,
-   not where the founders were born. Use `india_link` for Indian-origin founders
-   building abroad (`yes`, `no`, `unknown`).
+6. `region` is one of `India`, `USA`, `Other`, `Unknown`. It means where the company is
+   based, not where the founders were born. `Unknown` means the source did not say.
+   Use `india_link` for Indian or Indian-origin founders: `yes` (a source says so, or the
+   company is in India), `reported` (a newsletter lists them, not verified), `no`, `unknown`.
 7. Dates are written `YYYY-MM-DD`. Money is written with its currency (`$500K`, `₹20 lakh`).
 
 ## Column reference: `data/funded_startups.csv`
@@ -55,8 +56,8 @@ The CSV files are the source of truth. The `.xlsx` is only a view of them.
 | `funding_amount` | Amount, with currency |
 | `funding_note` | `standard program deal` or what the reported round was |
 | `based_in` | City and country if known |
-| `region` | `India`, `USA` or `Other` |
-| `india_link` | `yes` if founders are Indian or Indian-origin, else `no` or `unknown` |
+| `region` | `India`, `USA`, `Other` or `Unknown` |
+| `india_link` | `yes`, `reported`, `no` or `unknown` (see rule 6) |
 | `website` | Company site, if known |
 | `source_url` | Where the row's facts came from |
 | `confidence` | `high` (official directory or the program's own page), `medium` (news report), `low` (third-party list) |
@@ -67,6 +68,14 @@ The CSV files are the source of truth. The `.xlsx` is only a view of them.
 python3 scripts/fetch_yc.py        # refresh data/yc_recent_batches.csv (needs internet)
 uv run --with openpyxl python3 scripts/build_workbook.py   # rebuild the .xlsx
 ```
+
+The overview tab uses formulas. Excel and LibreOffice calculate them on open. A script
+that reads the `.xlsx` directly will see empty cells there unless the file was opened and
+saved once in LibreOffice. Read the CSVs instead.
+
+To label new YC companies (for example when a batch fills up), add their slug and a
+`bracket_id` to `data/yc_bracket_assignments.csv`, then run `fetch_yc.py` again.
+`fetch_yc.py` prints the slugs that still have no label.
 
 ## How to add research
 
