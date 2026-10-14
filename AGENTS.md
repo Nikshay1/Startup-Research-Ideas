@@ -87,7 +87,7 @@ To label new YC companies (for example when a batch fills up), add their slug an
 
 ## Git
 
-- Branch: `main`. Remote: `origin` (private repo `Nikshay1/Startup-Research-Ideas`).
+- Branch: `main`. Remote: `origin` (public repo `Nikshay1/Startup-Research-Ideas`, made public 2026-10-14).
 - Commit and push after every meaningful step so nothing is lost. This is Nikshay's
   explicit request for this repo.
 - Commits are SSH-signed. In an agent shell, prefix git commit with
